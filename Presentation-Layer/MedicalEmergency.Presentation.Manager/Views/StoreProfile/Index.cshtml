@@ -1,0 +1,59 @@
+﻿@model PagedList.IPagedList<MedicalEmergency.Presentation.Manager.Models.StoreProfile.StoreProfileViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lojas por Perfil</h2>
+
+<p>
+    @Html.ActionLink("Criar Novo", "Create")
+</p>
+
+<div class="table-custom">
+    <table>
+        <tr>
+            <th>
+                Perfil
+            </th>
+            <th>
+                Loja
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Updated)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profile.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Store.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

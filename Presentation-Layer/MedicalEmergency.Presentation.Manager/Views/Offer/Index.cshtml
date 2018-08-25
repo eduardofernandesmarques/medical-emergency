@@ -1,0 +1,260 @@
+﻿@model PagedList.IPagedList<MedicalEmergency.Presentation.Manager.Models.Offer.OfferViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista Ofertas</h2>
+<div class="table-custom">
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().OfferID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().OfferSource)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FirstInstallmentMaturityDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().LastInstallmentMaturityDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().AnnualCET)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().MonthlyCET)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().MovimentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().PlanCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().PlanDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().IssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FinancedIndex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FinancedInsurance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductInsurenceID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().IOFValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Term)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FirstInstallmentValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Insurer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Insurence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TACValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TaxValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().AnnualTaxValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().PurchaseValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().CreditValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FinancedValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ReleasedValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().SettleValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().InstallmentValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().InsuranceValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().InclusionTaxValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().RenewalTaxValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TotalValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TotalPSTValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ExpiredRangeRateInclusion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().SuggestedTrackReturn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().SimulationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Created)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfferID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfferSource)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstInstallmentMaturityDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastInstallmentMaturityDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnnualCET)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonthlyCET)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovimentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlanCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlanDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinancedIndex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinancedInsurance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductInsurenceID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IOFValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Term)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstInstallmentValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Insurer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Insurence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TACValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaxValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnnualTaxValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinancedValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleasedValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SettleValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstallmentValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsuranceValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InclusionTaxValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RenewalTaxValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPSTValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiredRangeRateInclusion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuggestedTrackReturn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SimulationType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Editar", "Edit", new { id = item.ID }) |*@
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) @*|
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.ID }) *@
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+

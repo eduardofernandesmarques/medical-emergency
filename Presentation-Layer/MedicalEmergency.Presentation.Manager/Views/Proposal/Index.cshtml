@@ -1,0 +1,237 @@
+﻿@model PagedList.IPagedList<MedicalEmergency.Presentation.Manager.Models.Proposal.ProposalViewModel>
+@using PagedList.Mvc;
+@using MedicalEmergency.Presentation.Manager.Helpers;
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    List<SelectListItem> statusList = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "-----", Value = "0" },
+                new SelectListItem { Text = "Cálculo em Andamento", Value = "51" },
+                new SelectListItem { Text = "Cancelada", Value = "61" },
+                new SelectListItem { Text = "Checagem Manual", Value = "30" },
+                new SelectListItem { Text = "Complementar Cadastro", Value = "31" },
+                new SelectListItem { Text = "Contrato Efetivado", Value = "20" },
+                new SelectListItem { Text = "Em Análise Automática", Value = "05" },
+                new SelectListItem { Text = "Em Simulação", Value = "01" },
+                new SelectListItem { Text = "Fila Análise Automática", Value = "03" },
+                new SelectListItem { Text = "Fila Análise Manual", Value = "02" },
+                new SelectListItem { Text = "Oferta Selecionada", Value = "53" },
+                new SelectListItem { Text = "Pendente", Value = "10" },
+                new SelectListItem { Text = "Pendente de Cálculo de Ofertas", Value = "50" },
+                new SelectListItem { Text = "Pré-Efetivado", Value = "40" },
+                new SelectListItem { Text = "Pronto para Contrato", Value = "21" },
+                new SelectListItem { Text = "Proposta Negada", Value = "60" },
+                new SelectListItem { Text = "Reprovada Automáticamente", Value = "07" },
+                new SelectListItem { Text = "Reprovada Analista", Value = "17" },
+                new SelectListItem { Text = "Seleção de Oferta", Value = "52" },
+            };
+}
+
+<h2>Lista Propostas</h2>
+
+@using (Html.BeginForm())
+{
+    <input class="form-control custom" type="text" id="cpf" placeholder="CPF" name="CPF">
+
+    <input class="form-control custom" type="text" id="proposalID" placeholder="Número da Proposta" name="ProposalID">
+
+    <input class="form-control custom" type="text" id="storeID" placeholder="Número da Loja" name="StoreID">
+
+   @Html.DropDownList("Status", statusList, new { @class = "form-control custom", @id = "statusID" })
+
+    <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
+}
+
+@using (Html.BeginForm("ExportToCSV", "Proposal", FormMethod.Post, new { id = "exportForm" }))
+{
+    <br />
+    <br />
+    <input type="submit" class="btn exportar" value="Exportar" />
+}
+<div class="table-custom">
+    <table>
+        <tr>
+            <th class="th-Created">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Created).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProposalID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().CPF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Email)
+            </th>
+            <th class="th-GrossIncome">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().GrossIncome).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
+            <th class="th-PurchaseValue">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().PurchaseValue).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().OtherIncomesValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FirstInstallmentMaturity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DocumentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DocumentNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().OfferID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Sex)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProposalID)
+                </td>
+                <td class="status-style">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CPF)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GrossIncome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OtherIncomesValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstInstallmentMaturity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentNumber)
+                </td>
+                <td>
+                    @if (item.OfferID != null)
+                {
+                        @Html.ActionLink(@Html.DisplayFor(modelItem => item.OfferID).ToString(), "Details", "Offer", new { id = item.OfferID }, htmlAttributes: new { title = "linkOffer" })
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.OfferID)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sex)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Editar", "Edit", new { id = item.ID }) |*@
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) @*|*@
+                    @*@Html.ActionLink("Deletar", "Delete", new { id = item.ID }) *@
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.currentSort, asc = ViewBag.asc, status = ViewBag.status }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemCount registros.
+
+<script>
+    $('.exportar').click(function () {
+        $('#exportForm').find(":hidden").remove();
+
+        var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", "storeID").val($('#storeID').val());
+        $('#exportForm').append($(input));
+
+        var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", "proposalID").val($('#proposalID').val());
+        $('#exportForm').append($(input));
+
+        var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", "cpf").val($('#cpf').val());
+        $('#exportForm').append($(input));
+
+        var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", "statusID").val($('#statusID').val());
+        $('#exportForm').append($(input));
+    });
+
+    if (!$('.th-PurchaseValue').find("a").attr('href').indexOf('page') >= 0) {
+        var href = $('.th-PurchaseValue').find("a").attr('href');
+        $('.th-PurchaseValue').find("a").attr('href', href + '&page=1');
+    }
+
+    if (!$('.th-PurchaseValue').find("a").attr('href').indexOf('status') >= 0) {
+        var href = $('.th-PurchaseValue').find("a").attr('href');
+        $('.th-PurchaseValue').find("a").attr('href', href + '&status=' + $('#statusID').val());
+    }
+
+    if (!$('.th-GrossIncome').find("a").attr('href').indexOf('page') >= 0) {
+        var href = $('.th-GrossIncome').find("a").attr('href');
+        $('.th-GrossIncome').find("a").attr('href', href + '&page=1');
+    }
+
+    if (!$('.th-GrossIncome').find("a").attr('href').indexOf('status') >= 0) {
+        var href = $('.th-GrossIncome').find("a").attr('href');
+        $('.th-GrossIncome').find("a").attr('href', href + '&status=' + $('#statusID').val());
+    }
+
+    if (!$('.th-Created').find("a").attr('href').indexOf('page') >= 0) {
+        var href = $('.th-Created').find("a").attr('href');
+        $('.th-Created').find("a").attr('href', href + '&page=1');
+    }
+
+    if (!$('.th-Created').find("a").attr('href').indexOf('status') >= 0) {
+        var href = $('.th-Created').find("a").attr('href');
+        $('.th-Created').find("a").attr('href', href + '&status=' + $('#statusID').val());
+    }
+
+</script>

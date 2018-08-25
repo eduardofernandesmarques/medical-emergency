@@ -1,0 +1,51 @@
+﻿@model MedicalEmergency.Presentation.Manager.Models.StoreProfile.StoreProfileViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Lojas por Perfil</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Profile.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profile.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Voltar para Lista", "Index")
+</p>
