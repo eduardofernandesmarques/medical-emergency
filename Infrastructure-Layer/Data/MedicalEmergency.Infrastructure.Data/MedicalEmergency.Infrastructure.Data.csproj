@@ -54,9 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\Manager\AccountMap.cs" />
-    <Compile Include="Mapping\SpecialityMap.cs" />
     <Compile Include="Mapping\Types\EmergencyTypeMap.cs" />
     <Compile Include="Mapping\Types\InstitutionTypeMap.cs" />
+    <Compile Include="Migrations\201808261307244_Initial.cs" />
+    <Compile Include="Migrations\201808261307244_Initial.Designer.cs">
+      <DependentUpon>201808261307244_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\CustomSqlServerMigrationSqlGenerator.cs" />
     <Compile Include="Mapping\HealthUnitMap.cs" />
@@ -65,7 +68,6 @@
     <Compile Include="Repository\HealthUnitRepository.cs" />
     <Compile Include="Repository\Manager\AccountRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Repository\SpecialityRepository.cs" />
     <Compile Include="Repository\Types\InstitutionTypeRepository.cs" />
     <Compile Include="Repository\Types\SpecialityTypeRepository.cs" />
   </ItemGroup>
@@ -76,14 +78,20 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Domain-Layer\MedicalEmergency.Domain\MedicalEmergency.Domain.csproj">
       <Project>{8A5D1F33-0BF3-418E-AB2F-22F2807880DE}</Project>
       <Name>MedicalEmergency.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808261307244_Initial.resx">
+      <DependentUpon>201808261307244_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\Initial.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

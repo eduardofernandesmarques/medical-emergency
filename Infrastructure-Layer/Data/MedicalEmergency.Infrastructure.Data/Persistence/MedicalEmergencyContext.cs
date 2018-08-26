@@ -23,14 +23,12 @@ namespace MedicalEmergency.Infrastructure.Data.Persistence
         public DbSet<InstitutionType> InstitutionType { get; set; }
         public DbSet<EmergencyType> EmergencyType { get; set; }
         public DbSet<HealthUnit> HealthUnit { get; set; }
-        public DbSet<Specialty> Specialty { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<MedicalEmergencyContext>(null);
 
             modelBuilder.Configurations.Add(new HealthUnitMap());
-            modelBuilder.Configurations.Add(new SpecialityMap());
             modelBuilder.Configurations.Add(new AccountMap());
             modelBuilder.Configurations.Add(new EmergencyTypeMap());
             modelBuilder.Configurations.Add(new InstitutionTypeMap());

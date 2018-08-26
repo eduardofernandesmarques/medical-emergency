@@ -20,35 +20,23 @@ namespace MedicalEmergency.Infrastructure.Data.Migrations
             DeleteData<HealthUnit>(context);
             DeleteData<EmergencyType>(context);
             DeleteData<InstitutionType>(context);
-            DeleteData<Specialty>(context);
 
             context.EmergencyType.AddOrUpdate(
-                new EmergencyType { Description = "0" },
-                new EmergencyType { Description = "1" },
-                new EmergencyType { Description = "2" },
-                new EmergencyType { Description = "3" },
-                new EmergencyType { Description = "4" },
-                new EmergencyType { Description = "5" }
+                new EmergencyType { Description = "Hospital" },
+                new EmergencyType { Description = "PA" }
             );
 
             context.InstitutionType.AddOrUpdate(
-                new InstitutionType { Description = "0" },
-                new InstitutionType { Description = "1" },
-                new InstitutionType { Description = "2" },
-                new InstitutionType { Description = "3" },
-                new InstitutionType { Description = "4" },
-                new InstitutionType { Description = "5" },
-                new InstitutionType { Description = "6" },
-                new InstitutionType { Description = "7" },
-                new InstitutionType { Description = "8" }
+                new InstitutionType { Description = "Público" },
+                new InstitutionType { Description = "Público/Privado" },
+                new InstitutionType { Description = "Privado" }
             );
 
-            context.Specialty.AddOrUpdate(
-                new Specialty { Description = "1" }
-            );
+            Account account = new Account() { Login = "admin", Password = "admin" };
+            account.EncryptPassword();
 
             context.Account.AddOrUpdate(
-                new Account { Login = "admin", Password = "teste" }
+               account
             );
         }
 

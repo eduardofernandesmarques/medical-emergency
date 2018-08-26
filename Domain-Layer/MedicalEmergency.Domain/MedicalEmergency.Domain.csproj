@@ -41,14 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Manager\Account.cs" />
-    <Compile Include="Entities\Specialty.cs" />
     <Compile Include="Entities\Types\EmergencyType.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Types\InstitutionType.cs" />
     <Compile Include="Entities\HealthUnit.cs" />
     <Compile Include="Interfaces\Repositories\Types\IEmergencyTypeRepository.cs" />
     <Compile Include="Interfaces\Repositories\IRepository.cs" />
-    <Compile Include="Interfaces\Repositories\ISpecialityRepository.cs" />
     <Compile Include="Interfaces\Repositories\Manager\IAccountRepository.cs" />
     <Compile Include="Interfaces\Repositories\IHealthUnitRepository.cs" />
     <Compile Include="Interfaces\Repositories\Types\IInstitutionTypeRepository.cs" />

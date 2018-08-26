@@ -1,5 +1,4 @@
 using MedicalEmergency.Domain.Entities.Types;
-using System;
 using System.Collections.Generic;
 
 namespace MedicalEmergency.Domain.Entities
@@ -17,8 +16,8 @@ namespace MedicalEmergency.Domain.Entities
         public string Longitude { get; set; }
         public  string LinkPT { get; set; }
         public string LinkEN { get; set; }
-        public virtual IList<Specialty> SpecialtiesPT { get; set; }
-        public virtual IList<Specialty> SpecialtiesEN { get; set; }
-        public virtual IList<Specialty> SpecialtiesES { get; set; }
+        public IList<string> SpecialtiesPT { get; set; }
+        public IList<string> SpecialtiesEN { get; set; }
+        public IList<string> SpecialtiesES { get; set; }
     }
 }

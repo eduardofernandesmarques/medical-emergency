@@ -19,7 +19,7 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping.Manager
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            ToTable("Account", "Manager");
+            ToTable("Account");
         }
     }
 }
