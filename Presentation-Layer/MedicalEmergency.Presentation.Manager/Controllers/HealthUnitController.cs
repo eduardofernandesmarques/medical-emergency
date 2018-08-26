@@ -111,9 +111,11 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return list.ToPagedList(page ?? 1, pageSize);
         }
 
-        // GET: Proposals
+        // GET: HealthUnit
         public ActionResult Index(int? page, string sortOrder, bool? asc, int? status, HealthUnitSearchModel search, HealthUnitSearchModel currentSearchFilter)
         {
+            SetViewBag();
+
             if (search != null && !string.IsNullOrEmpty(search.Name))
             {
                 ViewBag.currentFilter = search;
@@ -130,27 +132,13 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return View(pageList);
         }
 
-        // GET: Proposals/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            HealthUnit healthUnits = _healthUnityRepository.GetById(id);
-
-            if (healthUnits == null)
-                return HttpNotFound();
-
-            return View(healthUnits);
-        }
-
         public void SetViewBag()
         {
             ViewBag.EmergencyTypeID = new SelectList(_emergencyTypeRepository.GetAll(), "ID", "Description");
             ViewBag.InstitutionTypeID = new SelectList(_institutionTypeRepository.GetAll(), "ID", "Description");
         }
 
-        // GET: Proposals/Create
+        // GET: HealthUnits/Create
         public ActionResult Create()
         {
             SetViewBag();
@@ -177,7 +165,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return View(healthUnit);
         }
 
-        // GET: Proposals/Edit/5
+        // GET: HealthUnits/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -212,7 +200,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return View(healthUnit);
         }
 
-        // GET: Proposals/Delete/5
+        // GET: HealthUnits/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -226,7 +214,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return View(proposal);
         }
 
-        // POST: Proposals/Delete/5
+        // POST: HealthUnits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

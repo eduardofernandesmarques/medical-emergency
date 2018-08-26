@@ -7,40 +7,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    List<SelectListItem> statusList = new List<SelectListItem>()
-            {
-                new SelectListItem { Text = "-----", Value = "0" },
-                new SelectListItem { Text = "Cálculo em Andamento", Value = "51" },
-                new SelectListItem { Text = "Cancelada", Value = "61" },
-                new SelectListItem { Text = "Checagem Manual", Value = "30" },
-                new SelectListItem { Text = "Complementar Cadastro", Value = "31" },
-                new SelectListItem { Text = "Contrato Efetivado", Value = "20" },
-                new SelectListItem { Text = "Em Análise Automática", Value = "05" },
-                new SelectListItem { Text = "Em Simulação", Value = "01" },
-                new SelectListItem { Text = "Fila Análise Automática", Value = "03" },
-                new SelectListItem { Text = "Fila Análise Manual", Value = "02" },
-                new SelectListItem { Text = "Oferta Selecionada", Value = "53" },
-                new SelectListItem { Text = "Pendente", Value = "10" },
-                new SelectListItem { Text = "Pendente de Cálculo de Ofertas", Value = "50" },
-                new SelectListItem { Text = "Pré-Efetivado", Value = "40" },
-                new SelectListItem { Text = "Pronto para Contrato", Value = "21" },
-                new SelectListItem { Text = "Proposta Negada", Value = "60" },
-                new SelectListItem { Text = "Reprovada Automáticamente", Value = "07" },
-                new SelectListItem { Text = "Reprovada Analista", Value = "17" },
-                new SelectListItem { Text = "Seleção de Oferta", Value = "52" },
-            };
-}
-
-<h2>Lista Propostas</h2>
+<h2>Lista Unidades Médicas</h2>
 
 @using (Html.BeginForm())
 {
     <input class="form-control custom" type="text" id="cpf" placeholder="Nome" name="Name">
 
-    <input class="form-control custom" type="text" id="proposalID" placeholder="Número Unidade Médica" name="HealthUnitID">
 
-   @Html.DropDownList("Status", statusList, new { @class = "form-control custom", @id = "statusID" })
+   @Html.DropDownList("EmergencyTypeID", null, new { @class = "form-control custom", @id = "emergencyTypeID" })
+   @Html.DropDownList("institutionTypeID", null, new { @class = "form-control custom", @id = "institutionTypeID" })
 
     <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
 }
@@ -54,14 +29,11 @@
 <div class="table-custom">
     <table>
         <tr>
-            <th class="th-Created">
-                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Created).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Address)
+                @HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().Address).ToString())
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Latitude)
@@ -70,10 +42,10 @@
                 @Html.DisplayNameFor(model => model.First().Longitude)
             </th>
             <th class="th-Emergency">
-                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Emergency).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().Emergency).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th class="th-Institution">
-                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Institution).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().Institution).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().LinkEN)
@@ -93,6 +65,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().SpecialtiesPT)
             </th>
+            <th class="th-Created">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Created).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
             <th></th>
         </tr>
 
@@ -100,12 +75,9 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td class="status-style">
+                <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
@@ -115,10 +87,10 @@
                     @Html.DisplayFor(modelItem => item.Longitude)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Emergency)
+                    @Html.DisplayFor(modelItem => item.Emergency.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Institution)
+                    @Html.DisplayFor(modelItem => item.Institution.Description)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LinkEN)
@@ -139,8 +111,10 @@
                     @Html.DisplayFor(modelItem => item.SpecialtiesPT)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) |
                     @Html.ActionLink("Deletar", "Delete", new { id = item.ID }) 
                 </td>
             </tr>

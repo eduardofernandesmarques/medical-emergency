@@ -32,6 +32,9 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
             Property(t => t.LinkPT)
                 .HasMaxLength(100);
 
+            Property(t => t.SpecialtiesEN)
+                .IsOptional();
+
             // Table & Column Mappings
             ToTable("HealthUnit");
             Property(t => t.ID).HasColumnName("ID");
