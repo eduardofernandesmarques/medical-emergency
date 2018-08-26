@@ -8,39 +8,39 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
         public HealthUnitMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.ID);
 
             // Properties
-            this.Property(t => t.Name)
+            Property(t => t.Name)
                 .HasMaxLength(150);
 
-            this.Property(t => t.Phone)
+            Property(t => t.Phone)
                 .HasMaxLength(15);
 
-            this.Property(t => t.Phone)
+            Property(t => t.Phone)
                 .HasMaxLength(50);
 
-            this.Property(t => t.Latitude)
+            Property(t => t.Latitude)
                 .HasMaxLength(20);
 
-            this.Property(t => t.Longitude)
+            Property(t => t.Longitude)
                 .HasMaxLength(20);
 
-            this.Property(t => t.LinkEN)
+            Property(t => t.LinkEN)
                 .HasMaxLength(150);
 
-            this.Property(t => t.LinkPT)
+            Property(t => t.LinkPT)
                 .HasMaxLength(100);
 
             // Table & Column Mappings
-            this.ToTable("HealthUnit");
-            this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Phone).HasColumnName("Phone");
-            this.Property(t => t.Latitude).HasColumnName("Latitude");
-            this.Property(t => t.Longitude).HasColumnName("Longitude");
-            this.Property(t => t.LinkEN).HasColumnName("LinkEN");
-            this.Property(t => t.LinkPT).HasColumnName("LinkPT");
+            ToTable("HealthUnit");
+            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.Name).HasColumnName("Name");
+            Property(t => t.Phone).HasColumnName("Phone");
+            Property(t => t.Latitude).HasColumnName("Latitude");
+            Property(t => t.Longitude).HasColumnName("Longitude");
+            Property(t => t.LinkEN).HasColumnName("LinkEN");
+            Property(t => t.LinkPT).HasColumnName("LinkPT");
         }
     }
 }

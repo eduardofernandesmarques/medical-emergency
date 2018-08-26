@@ -1,5 +1,4 @@
 ﻿using MedicalEmergency.Presentation.Manager.App_Start;
-using MedicalEmergency.Presentation.Manager.AutoMapper;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -17,7 +16,6 @@ namespace MedicalEmergency.Presentation.Manager
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoMapperConfig.RegisterMappings();
         }
     }
 }

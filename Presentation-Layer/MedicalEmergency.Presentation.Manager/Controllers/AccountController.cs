@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using PagedList;
+﻿using PagedList;
 using MedicalEmergency.Domain.Entities.Manager;
 using MedicalEmergency.Domain.Interfaces.Repositories.Manager;
 using MedicalEmergency.Domain.Utilities;
 using MedicalEmergency.Presentation.Manager.Filters;
-using MedicalEmergency.Presentation.Manager.Models.Account;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Web.Mvc;
 using System.Web.Security;
-using Entity = MedicalEmergency.Domain.Entities.Manager;
+using MedicalEmergency.Infrastructure.Data.Repository.Manager;
 
 namespace MedicalEmergency.Presentation.Manager.Controllers
 {
@@ -19,12 +17,10 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IProfileRepository _profileRepository;
 
-        public AccountController(IAccountRepository accountRepository, IProfileRepository profileRepository)
+        public AccountController()
         {
-            _accountRepository = accountRepository;
-            _profileRepository = profileRepository;
+            _accountRepository = new AccountRepository();
         }
 
         // GET: Accounts
@@ -34,12 +30,9 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
 
             IList<Account> accounts;
 
-            if (Session["Profile"] != null && role.IsUserInRole(((Entity.Profile)Session["Profile"]).Name, "Admin"))
-                accounts = _accountRepository.GetAll(null, x => x.OrderBy(y => y.Profile.Name)).ToList();
-            else
-                accounts = _accountRepository.GetAll(null, x => x.OrderBy(y => y.Profile.Name)).Where(x => x.ID == ((Account)Session["Account"]).ID).ToList();
+            accounts = _accountRepository.GetAll().Where(x => x.ID == ((Account)Session["Account"]).ID).ToList();
 
-            var list = Mapper.Map<IList<Account>, IList<AccountViewModel>>(accounts);
+            var list = accounts;
 
             int pageSize = 10;
 
@@ -52,7 +45,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             
-            var account = Mapper.Map<Account, AccountViewModel>(_accountRepository.GetById(id));
+            var account = _accountRepository.GetById(id);
 
             if (account == null)
                 return HttpNotFound();
@@ -64,8 +57,6 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         // GET: Accounts/Create
         public ActionResult Create()
         {
-            ViewBag.ProfileID = new SelectList(_profileRepository.GetAll(), "ID", "Name");
-
             return View();
         }
 
@@ -75,18 +66,16 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AccountViewModel account)
+        public ActionResult Create(Account account)
         {
             if (ModelState.IsValid)
             {
                 account.EncryptPassword();
 
-                _accountRepository.Add(Mapper.Map<AccountViewModel, Account>(account));
+                _accountRepository.Add(account);
 
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ProfileID = new SelectList(_profileRepository.GetAll(), "ID", "Name", account.ProfileID);
 
             return View(account);
         }
@@ -97,12 +86,10 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = Mapper.Map<Account, AccountViewModel>(_accountRepository.GetById(id));
+            var account = _accountRepository.GetById(id);
 
             if (account == null)
                 return HttpNotFound();
-            
-            ViewBag.ProfileID = new SelectList(_profileRepository.GetAll(), "ID", "Name", account.ProfileID);
 
             return View(account);
         }
@@ -112,18 +99,16 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccountViewModel account)
+        public ActionResult Edit(Account account)
         {
             if (ModelState.IsValid)
             {
                 account.EncryptPassword();
 
-                _accountRepository.Update(Mapper.Map<AccountViewModel, Account>(account));
+                _accountRepository.Update(account);
 
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ProfileID = new SelectList(_profileRepository.GetAll(), "ID", "Name", account.ProfileID);
 
             return View(account);
         }
@@ -135,7 +120,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             
-            var account = Mapper.Map<Account, AccountViewModel>(_accountRepository.GetById(id));
+            var account =_accountRepository.GetById(id);
 
             if (account == null)
                 return HttpNotFound();
@@ -169,11 +154,11 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(AccountViewModel account, string returnUrl)
+        public ActionResult Login(Account account, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var accountInput = _accountRepository.Get(x => x.User == account.User).FirstOrDefault();
+                var accountInput = _accountRepository.Get(x => x.Login == account.Login).FirstOrDefault();
 
                 if (accountInput != null)
                 {
@@ -181,14 +166,12 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
                     {
                         if (Encrypt.VerifyMd5Hash(MD5.Create(), account.Password, accountInput.Password))
                         {
-                            FormsAuthentication.SetAuthCookie(accountInput.Profile.Name, false);
+                            FormsAuthentication.SetAuthCookie(account.Login, false);
 
                             if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && returnUrl.StartsWith("/\\"))
                                 return Redirect(returnUrl);
 
                             Session["Account"] = accountInput;
-
-                            Session["Profile"] = _profileRepository.GetById(accountInput.ProfileID);
 
                             return RedirectToAction("Index", "Proposal");
                         }
@@ -196,21 +179,21 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
                         {
                             ModelState.AddModelError("", "Senha informada Inválida!!!");
 
-                            return View(new AccountViewModel());
+                            return View(new Account());
                         }
                     }
                     else
                     {
                         ModelState.AddModelError("", "Usuário sem acesso para usar o sistema!!!");
 
-                        return View(new AccountViewModel());
+                        return View(new Account());
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("", "E-mail informado inválido!!!");
 
-                    return View(new AccountViewModel());
+                    return View(new Account());
                 }
             }
 

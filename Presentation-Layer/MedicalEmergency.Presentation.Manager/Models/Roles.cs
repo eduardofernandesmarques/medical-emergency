@@ -8,11 +8,11 @@ namespace MedicalEmergency.Presentation.Manager.Models
 {
     public class Roles : RoleProvider
     {
-        private readonly IProfileRepository _profileRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public Roles()
         {
-            _profileRepository = new ProfileRepository();
+            _accountRepository = new AccountRepository();
         }
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
@@ -46,23 +46,23 @@ namespace MedicalEmergency.Presentation.Manager.Models
             throw new NotImplementedException();
         }
 
-        public override string[] GetRolesForUser(string username)
+        public override string[] GetRolesForUser(string login)
         {
-            string roles = _profileRepository.Get(x => x.Name == username).FirstOrDefault().Name;
-            string[] retorno = { roles };
+            string roles = _accountRepository.Get(x => x.Login == login).FirstOrDefault().Login;
+            string[] result = { roles };
 
-            return retorno;
+            return result;
         }
         public override string[] GetUsersInRole(string roleName)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsUserInRole(string username, string roleName)
+        public override bool IsUserInRole(string login, string roleName)
         {
-            var account = _profileRepository.Get(x => x.Name == username).FirstOrDefault();
+            var account = _accountRepository.Get(x => x.Login == login).FirstOrDefault();
 
-            return account.Name.Equals(roleName);
+            return account.Login.Equals(roleName);
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)

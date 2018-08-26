@@ -12,9 +12,9 @@ namespace MedicalEmergency.Presentation.Manager.Filters
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            IProfileRepository profileRepository = new ProfileRepository();
+            AccountRepository accountRepository = new AccountRepository();
 
-            Roles = string.Join(",", profileRepository.GetAll(x => x.Active.Value).Select(x => x.Name).ToArray()); 
+            Roles = string.Join(",", accountRepository.GetAll(x => x.Active.Value).Select(x => x.Login).ToArray()); 
 
             return base.AuthorizeCore(httpContext);
         }

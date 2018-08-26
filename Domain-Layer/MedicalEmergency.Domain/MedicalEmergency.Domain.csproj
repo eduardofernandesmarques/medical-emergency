@@ -40,14 +40,12 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\HealthUnitSpeciality.cs" />
     <Compile Include="Entities\Manager\Account.cs" />
     <Compile Include="Entities\Specialty.cs" />
     <Compile Include="Entities\Types\EmergencyType.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Types\InstitutionType.cs" />
     <Compile Include="Entities\HealthUnit.cs" />
-    <Compile Include="Interfaces\Repositories\IHealthUnitSpecialityRepository.cs" />
     <Compile Include="Interfaces\Repositories\Types\IEmergencyTypeRepository.cs" />
     <Compile Include="Interfaces\Repositories\IRepository.cs" />
     <Compile Include="Interfaces\Repositories\ISpecialityRepository.cs" />
@@ -55,6 +53,9 @@
     <Compile Include="Interfaces\Repositories\IHealthUnitRepository.cs" />
     <Compile Include="Interfaces\Repositories\Types\IInstitutionTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DataAnnotationsColumnName.cs" />
+    <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

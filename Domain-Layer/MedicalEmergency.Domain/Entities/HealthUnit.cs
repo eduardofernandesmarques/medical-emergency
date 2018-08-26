@@ -17,8 +17,8 @@ namespace MedicalEmergency.Domain.Entities
         public string Longitude { get; set; }
         public  string LinkPT { get; set; }
         public string LinkEN { get; set; }
-        public virtual IList<HealthUnitSpeciality> SpecialtiesPT { get; set; }
-        public virtual IList<HealthUnitSpeciality> SpecialtiesEN { get; set; }
-        public virtual IList<HealthUnitSpeciality> SpecialtiesES { get; set; }
+        public virtual IList<Specialty> SpecialtiesPT { get; set; }
+        public virtual IList<Specialty> SpecialtiesEN { get; set; }
+        public virtual IList<Specialty> SpecialtiesES { get; set; }
     }
 }

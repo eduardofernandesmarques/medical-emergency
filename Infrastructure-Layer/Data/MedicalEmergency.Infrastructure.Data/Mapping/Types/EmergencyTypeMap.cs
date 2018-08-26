@@ -8,16 +8,16 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
         public EmergencyTypeMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.ID);
 
             // Properties
-            this.Property(t => t.Description)
+            Property(t => t.Description)
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("EmergencyType");
-            this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.Description).HasColumnName("Description");
+            ToTable("EmergencyType");
+            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.Description).HasColumnName("Description");
         }
     }
 }

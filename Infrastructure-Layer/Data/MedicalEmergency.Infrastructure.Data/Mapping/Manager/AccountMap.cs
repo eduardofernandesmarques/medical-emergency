@@ -8,18 +8,18 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping.Manager
         public AccountMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.ID);
 
-            this.Property(t => t.Login)
+            Property(t => t.Login)
               .IsRequired()
               .HasMaxLength(25);
 
-            this.Property(t => t.Password)
+            Property(t => t.Password)
                 .IsRequired()
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("Account", "Manager");
+            ToTable("Account", "Manager");
         }
     }
 }
