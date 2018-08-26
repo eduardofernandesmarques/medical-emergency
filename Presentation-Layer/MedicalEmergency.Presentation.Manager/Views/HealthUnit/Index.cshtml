@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<MedicalEmergency.Presentation.Manager.Models.Proposal.ProposalViewModel>
+﻿@model PagedList.IPagedList<MedicalEmergency.Domain.Entities.HealthUnit>
 @using PagedList.Mvc;
 @using MedicalEmergency.Presentation.Manager.Helpers;
 
@@ -36,18 +36,16 @@
 
 @using (Html.BeginForm())
 {
-    <input class="form-control custom" type="text" id="cpf" placeholder="CPF" name="CPF">
+    <input class="form-control custom" type="text" id="cpf" placeholder="Nome" name="Name">
 
-    <input class="form-control custom" type="text" id="proposalID" placeholder="Número da Proposta" name="ProposalID">
-
-    <input class="form-control custom" type="text" id="storeID" placeholder="Número da Loja" name="StoreID">
+    <input class="form-control custom" type="text" id="proposalID" placeholder="Número Unidade Médica" name="HealthUnitID">
 
    @Html.DropDownList("Status", statusList, new { @class = "form-control custom", @id = "statusID" })
 
     <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
 }
 
-@using (Html.BeginForm("ExportToCSV", "Proposal", FormMethod.Post, new { id = "exportForm" }))
+@using (Html.BeginForm("ExportToCSV", "HealthUnit", FormMethod.Post, new { id = "exportForm" }))
 {
     <br />
     <br />
@@ -60,49 +58,40 @@
                 @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Created).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().ProposalID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Status)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().CPF)
+                @Html.DisplayNameFor(model => model.First().Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Longitude)
+            </th>
+            <th class="th-Emergency">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Emergency).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
+            <th class="th-Institution">
+                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().Institution).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().LinkEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().LinkPT)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Email)
-            </th>
-            <th class="th-GrossIncome">
-                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().GrossIncome).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
-            </th>
-            <th class="th-PurchaseValue">
-                @Html.ActionLinkWithColumnOrder(@Html.DisplayNameFor(model => model.First().PurchaseValue).ToString(), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+                @Html.DisplayNameFor(model => model.First().SpecialtiesEN)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().OtherIncomesValue)
+                @Html.DisplayNameFor(model => model.First().SpecialtiesES)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Birthday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().FirstInstallmentMaturity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().DocumentType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().DocumentNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().OfferID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Sex)
+                @Html.DisplayNameFor(model => model.First().SpecialtiesPT)
             </th>
             <th></th>
         </tr>
@@ -114,61 +103,45 @@
                     @Html.DisplayFor(modelItem => item.Created)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProposalID)
-                </td>
-                <td class="status-style">
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
+                <td class="status-style">
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CPF)
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Emergency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Institution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LinkEN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LinkPT)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Phone)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.SpecialtiesEN)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GrossIncome)
+                    @Html.DisplayFor(modelItem => item.SpecialtiesES)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PurchaseValue)
+                    @Html.DisplayFor(modelItem => item.SpecialtiesPT)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OtherIncomesValue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Birthday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstInstallmentMaturity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentNumber)
-                </td>
-                <td>
-                    @if (item.OfferID != null)
-                {
-                        @Html.ActionLink(@Html.DisplayFor(modelItem => item.OfferID).ToString(), "Details", "Offer", new { id = item.OfferID }, htmlAttributes: new { title = "linkOffer" })
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.OfferID)
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sex)
-                </td>
-                <td>
-                    @*@Html.ActionLink("Editar", "Edit", new { id = item.ID }) |*@
-                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) @*|*@
-                    @*@Html.ActionLink("Deletar", "Delete", new { id = item.ID }) *@
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.ID }) 
                 </td>
             </tr>
         }
@@ -190,12 +163,12 @@ Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemC
 
         var input = $("<input>")
                    .attr("type", "hidden")
-                   .attr("name", "proposalID").val($('#proposalID').val());
+                   .attr("name", "HealthUnitID").val($('#HealthUnitID').val());
         $('#exportForm').append($(input));
 
         var input = $("<input>")
                    .attr("type", "hidden")
-                   .attr("name", "cpf").val($('#cpf').val());
+                   .attr("name", "name").val($('#name').val());
         $('#exportForm').append($(input));
 
         var input = $("<input>")
@@ -204,24 +177,24 @@ Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemC
         $('#exportForm').append($(input));
     });
 
-    if (!$('.th-PurchaseValue').find("a").attr('href').indexOf('page') >= 0) {
-        var href = $('.th-PurchaseValue').find("a").attr('href');
-        $('.th-PurchaseValue').find("a").attr('href', href + '&page=1');
+    if (!$('.th-Emergency').find("a").attr('href').indexOf('page') >= 0) {
+        var href = $('.th-Emergency').find("a").attr('href');
+        $('.th-Emergency').find("a").attr('href', href + '&page=1');
     }
 
-    if (!$('.th-PurchaseValue').find("a").attr('href').indexOf('status') >= 0) {
-        var href = $('.th-PurchaseValue').find("a").attr('href');
-        $('.th-PurchaseValue').find("a").attr('href', href + '&status=' + $('#statusID').val());
+    if (!$('.th-Emergency').find("a").attr('href').indexOf('status') >= 0) {
+        var href = $('.th-Emergency').find("a").attr('href');
+        $('.th-Emergency').find("a").attr('href', href + '&status=' + $('#statusID').val());
     }
 
-    if (!$('.th-GrossIncome').find("a").attr('href').indexOf('page') >= 0) {
-        var href = $('.th-GrossIncome').find("a").attr('href');
-        $('.th-GrossIncome').find("a").attr('href', href + '&page=1');
+    if (!$('.th-Institution').find("a").attr('href').indexOf('page') >= 0) {
+        var href = $('.th-Institution').find("a").attr('href');
+        $('.th-Institution').find("a").attr('href', href + '&page=1');
     }
 
-    if (!$('.th-GrossIncome').find("a").attr('href').indexOf('status') >= 0) {
-        var href = $('.th-GrossIncome').find("a").attr('href');
-        $('.th-GrossIncome').find("a").attr('href', href + '&status=' + $('#statusID').val());
+    if (!$('.th-Institution').find("a").attr('href').indexOf('status') >= 0) {
+        var href = $('.th-Institution').find("a").attr('href');
+        $('.th-Institution').find("a").attr('href', href + '&status=' + $('#statusID').val());
     }
 
     if (!$('.th-Created').find("a").attr('href').indexOf('page') >= 0) {

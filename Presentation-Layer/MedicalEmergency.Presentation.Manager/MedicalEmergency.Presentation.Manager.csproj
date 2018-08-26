@@ -193,6 +193,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HealthUnitController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\CustomAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -282,11 +283,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Proposal\Create.cshtml" />
-    <Content Include="Views\Proposal\Delete.cshtml" />
-    <Content Include="Views\Proposal\Details.cshtml" />
-    <Content Include="Views\Proposal\Edit.cshtml" />
-    <Content Include="Views\Proposal\Index.cshtml" />
+    <Content Include="Views\HealthUnit\Create.cshtml" />
+    <Content Include="Views\HealthUnit\Delete.cshtml" />
+    <Content Include="Views\HealthUnit\Details.cshtml" />
+    <Content Include="Views\HealthUnit\Edit.cshtml" />
+    <Content Include="Views\HealthUnit\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
@@ -307,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Domain-Layer\MedicalEmergency.Domain\MedicalEmergency.Domain.csproj">

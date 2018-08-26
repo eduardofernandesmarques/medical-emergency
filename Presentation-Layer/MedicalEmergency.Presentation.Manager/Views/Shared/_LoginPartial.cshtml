@@ -1,6 +1,6 @@
 ﻿@using MedicalEmergency.Domain.Entities.Manager;
 
-@{ string name = (Account)HttpContext.Current.Session["Account"] != null ? ((Account)HttpContext.Current.Session["Account"]).Name : null; }
+@{ string login = (Account)HttpContext.Current.Session["Account"] != null ? ((Account)HttpContext.Current.Session["Account"]).Login : null; }
 
 @if (Request.IsAuthenticated)
 {
@@ -10,7 +10,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Olá " + @name + "!", "Index", "Account", routeValues: null, htmlAttributes: new { title = "Manager" })
+                @Html.ActionLink("Olá " + @login + "!", "Index", "Account", routeValues: null, htmlAttributes: new { title = "Manager" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Deslogar</a></li>
         </ul>

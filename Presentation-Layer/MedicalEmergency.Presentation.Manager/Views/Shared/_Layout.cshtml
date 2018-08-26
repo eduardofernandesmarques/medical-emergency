@@ -20,17 +20,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("MedicalEmergency Leads", "Index", "Proposal", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("MedicalEmergency", "Index", "HealthUnit", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Propostas", "Index", "Proposal")</li>
-                    <li>@Html.ActionLink("Contas", "Index", "Account")</li>
-                    @if (User.Identity.GetUserName() == "Admin")
+
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+                    @if (User.Identity.GetUserName() == "admin")
                     {
-                        <li>@Html.ActionLink("Perfis", "Index", "Profile")</li>
-                        <li>@Html.ActionLink("Lojas por Perfil", "Index", "StoreProfile")</li>
-                        <li>@Html.ActionLink("CEP", "Index", "CEPNotFound")</li>
+                        <li>@Html.ActionLink("Unidades Médicas", "Index", "HealthUnit")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

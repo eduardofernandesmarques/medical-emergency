@@ -173,7 +173,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
 
                             Session["Account"] = accountInput;
 
-                            return RedirectToAction("Index", "Proposal");
+                            return RedirectToAction("Index", "HealthUnit");
                         }
                         else
                         {

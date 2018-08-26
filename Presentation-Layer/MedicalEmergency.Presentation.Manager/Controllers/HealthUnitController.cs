@@ -26,7 +26,6 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
     public class HealthUnitController : Controller
     {
         private readonly IHealthUnitRepository _healthUnityRepository;
-        private readonly ISpecialityRepository _specialityRepository;
         private readonly IEmergencyTypeRepository _emergencyTypeRepository;
         private readonly IInstitutionTypeRepository _institutionTypeRepository;
 
@@ -36,7 +35,6 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         public HealthUnitController()
         {
             _healthUnityRepository = new HealthUnitRepository();
-            _specialityRepository = new SpecialityRepository();
             _emergencyTypeRepository = new EmergencyTypeRepository();
             _institutionTypeRepository = new InstitutionTypeRepository();
         }
@@ -150,7 +148,6 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         {
             ViewBag.EmergencyTypeID = new SelectList(_emergencyTypeRepository.GetAll(), "ID", "Description");
             ViewBag.InstitutionTypeID = new SelectList(_institutionTypeRepository.GetAll(), "ID", "Description");
-            ViewBag.SpecialityID = new SelectList(_specialityRepository.GetAll(), "ID", "Description");
         }
 
         // GET: Proposals/Create
