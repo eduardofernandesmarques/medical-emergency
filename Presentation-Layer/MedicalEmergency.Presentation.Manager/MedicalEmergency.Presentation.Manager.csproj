@@ -200,11 +200,13 @@
     </Compile>
     <Compile Include="Helpers\MvcHtmlStringHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Models\Home\PositionViewModel.cs" />
     <Compile Include="Models\Proposal\ProposalExportViewModel.cs" />
     <Compile Include="Models\Proposal\HealthUnitSearchModel.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CsvExport.cs" />
+    <Compile Include="Utilities\EnumExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

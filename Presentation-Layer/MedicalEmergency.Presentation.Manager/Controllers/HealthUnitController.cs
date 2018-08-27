@@ -3,22 +3,18 @@ using MedicalEmergency.Presentation.Manager.Filters;
 using MedicalEmergency.Presentation.Manager.Models.Proposal;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using System.Web.UI;
-using WebControls = System.Web.UI.WebControls;
 using MedicalEmergency.Domain.Interfaces.Repositories;
 using MedicalEmergency.Domain.Interfaces.Repositories.Types;
 using MedicalEmergency.Infrastructure.Data.Repository;
 using MedicalEmergency.Infrastructure.Data.Repository.Types;
 using MedicalEmergency.Domain.Entities;
 using MedicalEmergency.Presentation.Manager.Helpers;
-using MedicalEmergency.Domain.Utilities;
+using MedicalEmergency.Presentation.Manager.Utilities;
 
 namespace MedicalEmergency.Presentation.Manager.Controllers
 {
@@ -41,6 +37,8 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
 
         public IList<HealthUnit> SearchBy(IList<HealthUnit> list, HealthUnitSearchModel search)
         {
+            IList<HealthUnit> resultList = new List<HealthUnit>();
+
             if (search.IsAnyNotNullOrEmpty())
             {
                 foreach (PropertyInfo pi in search.GetType().GetProperties())
@@ -49,10 +47,20 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
                     {
                         string value = (string)pi.GetValue(search);
 
-                        if (!string.IsNullOrEmpty(value) && (value.All(char.IsDigit) && Convert.ToInt64(value) > 0))
+                        if (!string.IsNullOrEmpty(value))
                         {
                             var property = typeof(HealthUnit).GetProperty(pi.Name);
-                            list = list.Where(x => property.GetValue(x, null).ToString() == value).ToList();
+                            resultList = resultList.Concat(list.Where(x => property.GetValue(x, null).ToString().Contains(value)).ToList()).ToList();
+                        }
+                    }
+                    else if(pi.PropertyType == typeof(int))
+                    {
+                        int value = (int)pi.GetValue(search);
+
+                        if (value != 0)
+                        {
+                            var property = typeof(HealthUnit).GetProperty(pi.Name);
+                            resultList = resultList.Concat(list.Where(x => property.GetValue(x, null).ToString() == value.ToString()).ToList()).ToList();
                         }
                     }
                     else if (pi.PropertyType.IsEnum)
@@ -62,13 +70,15 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
 
                         int enumValue = Convert.ToInt32(status);
 
-                        //if (enumValue > 0 && !string.IsNullOrEmpty(status.ToString())) ;
-                            //list = list.Where(x => property.GetValue(x, null).ToString().Contains(status.ToDescriptionString().ToUpper())).ToList();
+                        if (enumValue > 0 && !string.IsNullOrEmpty(status.ToString())) ;
+                            resultList = resultList.Concat(list.Where(x => property.GetValue(x, null).ToString().Contains(status.ToDescriptionString().ToUpper())).ToList()).ToList();
                     }
                 }
+
+                return resultList.Distinct().ToList();
             }
 
-            return list;
+            return list.ToList();
         }
 
         public IList<HealthUnit> OrderBy(string sortOrder, bool? asc, IList<HealthUnit> healthUnits)
@@ -112,7 +122,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
         }
 
         // GET: HealthUnit
-        public ActionResult Index(int? page, string sortOrder, bool? asc, int? status, HealthUnitSearchModel search, HealthUnitSearchModel currentSearchFilter)
+        public ActionResult Index(int? page, string sortOrder, bool? asc, int? institutionType, int? emergencyType, HealthUnitSearchModel search, HealthUnitSearchModel currentSearchFilter)
         {
             SetViewBag();
 
@@ -134,8 +144,16 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
 
         public void SetViewBag()
         {
-            ViewBag.EmergencyTypeID = new SelectList(_emergencyTypeRepository.GetAll(), "ID", "Description");
-            ViewBag.InstitutionTypeID = new SelectList(_institutionTypeRepository.GetAll(), "ID", "Description");
+            SelectListItem selectListItem = new SelectListItem() { Value = "0", Text = "-----" };
+
+            var emergencyTypeList = new SelectList(_emergencyTypeRepository.GetAll(), "ID", "Description").ToList();
+            var institutionTypeList = new SelectList(_institutionTypeRepository.GetAll(), "ID", "Description").ToList();
+
+            emergencyTypeList.Insert(0, selectListItem);
+            institutionTypeList.Insert(0, selectListItem);
+
+            ViewBag.EmergencyTypeID = emergencyTypeList;
+            ViewBag.InstitutionTypeID = institutionTypeList;
         }
 
         // GET: HealthUnits/Create
@@ -146,7 +164,7 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             return View();
         }
 
-        // POST: Proposals/Create
+        // POST: HealthUnits/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -171,17 +189,17 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var proposal = _healthUnityRepository.GetById(id);
+            var healthUnit = _healthUnityRepository.GetById(id);
 
-            if (proposal == null)
+            if (healthUnit == null)
                 return HttpNotFound();
 
             SetViewBag();
 
-            return View(proposal);
+            return View(healthUnit);
         }
 
-        // POST: Proposals/Edit/5
+        // POST: HealthUnits/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -206,12 +224,12 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var proposal = _healthUnityRepository.GetById(id);
+            var healthUnit = _healthUnityRepository.GetById(id);
 
-            if (proposal == null)
+            if (healthUnit == null)
                 return HttpNotFound();
 
-            return View(proposal);
+            return View(healthUnit);
         }
 
         // POST: HealthUnits/Delete/5
@@ -222,160 +240,6 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             _healthUnityRepository.DeleteByID(id);
 
             return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult ExportToExcel(string name, string healthUnitID, string emergencyTypeID, string institutionTypeID)
-        {
-            IList<HealthUnit> healthUnits = _healthUnityRepository.GetAll().ToList();
-            healthUnits = FilterHealthUnits(healthUnits, name, healthUnitID, emergencyTypeID, institutionTypeID);
-
-            var gridView = new WebControls.GridView();
-
-            gridView.DataSource = healthUnits;
-            gridView.DataBind();
-
-            SetHeader(gridView);
-
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=Export.csv");
-            Response.ContentType = "text/csv";
-            Response.Charset = "";
-
-            StringWriter objStringWriter = new StringWriter();
-            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
-
-            gridView.RenderControl(objHtmlTextWriter);
-
-            Response.Output.Write(objStringWriter.ToString());
-            Response.Flush();
-            Response.End();
-
-            return View();
-        }
-
-        public void SetHeaderGridView(WebControls.GridView gridView)
-        {
-            string[] list = { "HealthUnitID", "EmergencyTypeID", "InstitutionTypeID" };
-
-            foreach (WebControls.TableCell item in gridView.HeaderRow.Cells)
-            {
-                if (item.Text.Contains("ID") && !list.Any(x => item.Text.Contains(x)))
-                {
-                    gridView.HeaderRow.Cells[gridView.HeaderRow.Cells.GetCellIndex(item)].Visible = false;
-
-                    for (int i = 0; i < gridView.Rows.Count; i++)
-                    {
-                        WebControls.GridViewRow row = gridView.Rows[i];
-                        row.Cells[gridView.HeaderRow.Cells.GetCellIndex(item)].Visible = false;
-                    }
-                }
-            }
-
-            var ColumnValues = DataAnnotationsColumnName.GetPropertiesName(typeof(HealthUnit)).ToArray();
-
-            foreach (WebControls.TableCell item in gridView.HeaderRow.Cells)
-            {
-                if (item.Visible != false)
-                    foreach (var value in ColumnValues)
-                    {
-                        item.Text = value;
-                        ColumnValues = ColumnValues.Where(w => w != ColumnValues[Array.FindIndex(ColumnValues, x => x == value)]).ToArray();
-                        break;
-                    }
-            }
-        }
-
-        public void SetHeader(WebControls.GridView gridView)
-        {
-            var ColumnValues = DataAnnotationsColumnName.GetPropertiesExportName(typeof(ProposalExportViewModel)).ToArray();
-
-            if (gridView.HeaderRow != null && gridView.HeaderRow.Cells != null)
-                foreach (WebControls.TableCell item in gridView.HeaderRow.Cells)
-                {
-                    if (item.Visible != false)
-                        foreach (var value in ColumnValues)
-                        {
-                            item.Text = value;
-                            ColumnValues = ColumnValues.Where(w => w != ColumnValues[Array.FindIndex(ColumnValues, x => x == value)]).ToArray();
-                            break;
-                        }
-                }
-        }
-
-        public IList<HealthUnit> FilterHealthUnits(IList<HealthUnit> list, string name, string healthUnitID, string EmergencyTypeID, string InstitutionTypeID)
-        {
-            if (!string.IsNullOrEmpty(name))
-                list = list.Where(x => x.Name == name).ToList();
-            if (!string.IsNullOrEmpty(healthUnitID))
-                list = list.Where(x => x.ID == Convert.ToInt64(healthUnitID)).ToList();
-            if (!string.IsNullOrEmpty(InstitutionTypeID))
-                list = list.Where(x => x.InstitutionTypeID == Convert.ToInt32(InstitutionTypeID)).ToList();
-            if (!string.IsNullOrEmpty(EmergencyTypeID))
-                list = list.Where(x => x.EmergencyTypeID == Convert.ToInt32(InstitutionTypeID)).ToList();
-
-            return list;
-        }
-
-        [HttpPost]
-        public ActionResult ExportToCSV(string name, string healthUnitID, string emergencyTypeID, string institutionTypeID)
-        {
-            IList<HealthUnit> healthUnits = _healthUnityRepository.GetAll().ToList();
-
-            healthUnits = FilterHealthUnits(healthUnits, name, healthUnitID, emergencyTypeID, institutionTypeID);
-
-            StringWriter objStringWriter = new StringWriter();
-
-            objStringWriter.WriteLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13};{14};{15};{16}",
-                                        "ID",
-                                        "Nome",
-                                        "Latitude",
-                                        "Longitude",
-                                        "LinkEN",
-                                        "LinkPT",
-                                        "Telefone",
-                                        "Especialidades EN",
-                                        "Especialidades ES",
-                                        "Especialidades PT",
-                                        "Tipo Documento",
-                                        "ID Oferta",
-                                        "Sexo",
-                                        "Status",
-                                        "ID Loja",
-                                        "ID Lojista",
-                                        "Data Criação"));
-
-            foreach (var item in healthUnits)
-                objStringWriter.WriteLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13};{14};{15};{16}",
-                                               item.ID,
-                                               item.Name.Replace(",", ""),
-                                               item.Latitude,
-                                               item.Longitude,
-                                               item.LinkEN,
-                                               item.LinkPT,
-                                               item.Phone,
-                                               item.SpecialtiesEN,
-                                               item.SpecialtiesES,
-                                               item.SpecialtiesPT,
-                                               item.Created));
-
-            UTF8Encoding utf8 = new UTF8Encoding(false);
-
-            var result = utf8.GetPreamble().Concat(utf8.GetBytes(objStringWriter.ToString())).ToArray();
-
-            Response.Clear();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment;filename=" + System.Web.HttpUtility.UrlEncode("Propostas.csv", Encoding.UTF8) + "");
-            Response.ContentType = "text/csv";
-            Response.ContentEncoding = utf8;
-            Response.Charset = "";
-            Response.BinaryWrite(result);
-            Response.Write(File(result, "application/csv", "Propostas.csv"));
-            Response.Flush();
-            Response.End();
-
-            return View();
         }
     }
 }

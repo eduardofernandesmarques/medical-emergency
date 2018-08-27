@@ -65,7 +65,14 @@ namespace MedicalEmergency.Presentation.Manager.Helpers
                 {
                     string value = (string)pi.GetValue(myObject);
 
-                    if (!string.IsNullOrEmpty(value) && (value.All(char.IsDigit) && Convert.ToInt64(value) > 0))
+                    if (!string.IsNullOrEmpty(value))
+                        return true;
+                }
+                else if(pi.PropertyType == typeof(int))
+                {
+                    var value = pi.GetValue(myObject);
+
+                    if (Convert.ToInt32(value) != 0)
                         return true;
                 }
                 else if (pi.PropertyType.IsEnum)

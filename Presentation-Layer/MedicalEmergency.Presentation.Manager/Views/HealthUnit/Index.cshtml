@@ -13,19 +13,12 @@
 {
     <input class="form-control custom" type="text" id="cpf" placeholder="Nome" name="Name">
 
-
-   @Html.DropDownList("EmergencyTypeID", null, new { @class = "form-control custom", @id = "emergencyTypeID" })
+   @Html.DropDownList("emergencyTypeID", null, new { @class = "form-control custom", @id = "emergencyTypeID" })
    @Html.DropDownList("institutionTypeID", null, new { @class = "form-control custom", @id = "institutionTypeID" })
 
     <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
 }
 
-@using (Html.BeginForm("ExportToCSV", "HealthUnit", FormMethod.Post, new { id = "exportForm" }))
-{
-    <br />
-    <br />
-    <input type="submit" class="btn exportar" value="Exportar" />
-}
 <div class="table-custom">
     <table>
         <tr>
@@ -42,10 +35,10 @@
                 @Html.DisplayNameFor(model => model.First().Longitude)
             </th>
             <th class="th-Emergency">
-                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().Emergency).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().EmergencyTypeID).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th class="th-Institution">
-                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().Institution).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
+                @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().InstitutionTypeID).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().LinkEN)
@@ -127,38 +120,19 @@ Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.P
 Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemCount registros.
 
 <script>
-    $('.exportar').click(function () {
-        $('#exportForm').find(":hidden").remove();
-
-        var input = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "storeID").val($('#storeID').val());
-        $('#exportForm').append($(input));
-
-        var input = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "HealthUnitID").val($('#HealthUnitID').val());
-        $('#exportForm').append($(input));
-
-        var input = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "name").val($('#name').val());
-        $('#exportForm').append($(input));
-
-        var input = $("<input>")
-                   .attr("type", "hidden")
-                   .attr("name", "statusID").val($('#statusID').val());
-        $('#exportForm').append($(input));
-    });
-
     if (!$('.th-Emergency').find("a").attr('href').indexOf('page') >= 0) {
         var href = $('.th-Emergency').find("a").attr('href');
         $('.th-Emergency').find("a").attr('href', href + '&page=1');
     }
 
-    if (!$('.th-Emergency').find("a").attr('href').indexOf('status') >= 0) {
+    if (!$('.th-Emergency').find("a").attr('href').indexOf('emergencyTypeID') >= 0) {
         var href = $('.th-Emergency').find("a").attr('href');
-        $('.th-Emergency').find("a").attr('href', href + '&status=' + $('#statusID').val());
+        $('.th-Emergency').find("a").attr('href', href + '&emergencyType=' + $('#emergencyTypeID').val());
+    }
+
+    if (!$('.th-Emergency').find("a").attr('href').indexOf('institutionTypeID') >= 0) {
+        var href = $('.th-Emergency').find("a").attr('href');
+        $('.th-Emergency').find("a").attr('href', href + '&institutionType=' + $('#institutionTypeID').val());
     }
 
     if (!$('.th-Institution').find("a").attr('href').indexOf('page') >= 0) {
@@ -166,9 +140,14 @@ Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemC
         $('.th-Institution').find("a").attr('href', href + '&page=1');
     }
 
-    if (!$('.th-Institution').find("a").attr('href').indexOf('status') >= 0) {
+    if (!$('.th-Institution').find("a").attr('href').indexOf('institutionTypeID') >= 0) {
         var href = $('.th-Institution').find("a").attr('href');
-        $('.th-Institution').find("a").attr('href', href + '&status=' + $('#statusID').val());
+        $('.th-Institution').find("a").attr('href', href + '&institutionType=' + $('#institutionTypeID').val());
+    }
+
+    if (!$('.th-Institution').find("a").attr('href').indexOf('emergencyTypeID') >= 0) {
+        var href = $('.th-Institution').find("a").attr('href');
+        $('.th-Institution').find("a").attr('href', href + '&emergencyType=' + $('#emergencyTypeID').val());
     }
 
     if (!$('.th-Created').find("a").attr('href').indexOf('page') >= 0) {
@@ -176,9 +155,14 @@ Mostrando @Model.FirstItemOnPage para @Model.LastItemOnPage de @Model.TotalItemC
         $('.th-Created').find("a").attr('href', href + '&page=1');
     }
 
-    if (!$('.th-Created').find("a").attr('href').indexOf('status') >= 0) {
+    if (!$('.th-Created').find("a").attr('href').indexOf('institutionTypeID') >= 0) {
         var href = $('.th-Created').find("a").attr('href');
-        $('.th-Created').find("a").attr('href', href + '&status=' + $('#statusID').val());
+        $('.th-Created').find("a").attr('href', href + '&institutionType=' + $('#institutionTypeID').val());
+    }
+
+    if (!$('.th-Created').find("a").attr('href').indexOf('emergencyTypeID') >= 0) {
+        var href = $('.th-Created').find("a").attr('href');
+        $('.th-Created').find("a").attr('href', href + '&emergencyType=' + $('#emergencyTypeID').val());
     }
 
 </script>
