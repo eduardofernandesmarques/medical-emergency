@@ -75,6 +75,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.LinkES, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LinkES, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LinkES, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
@@ -93,7 +101,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecialtiesEN, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecialtiesEN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.SpecialtiesEN, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SpecialtiesEN, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -101,7 +109,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecialtiesES, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecialtiesES, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.SpecialtiesES, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SpecialtiesES, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -109,7 +117,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecialtiesPT, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecialtiesPT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.SpecialtiesPT, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SpecialtiesPT, "", new { @class = "text-danger" })
             </div>
         </div>

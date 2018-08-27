@@ -13,7 +13,7 @@ namespace MedicalEmergency.Infrastructure.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201808261956062_Initial"; }
+            get { return "201808270136181_Initial"; }
         }
         
         string IMigrationMetadata.Source

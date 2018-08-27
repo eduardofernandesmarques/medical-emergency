@@ -21,18 +21,27 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
                 .HasMaxLength(50);
 
             Property(t => t.Latitude)
-                .HasMaxLength(20);
+                .HasMaxLength(25);
 
             Property(t => t.Longitude)
-                .HasMaxLength(20);
+                .HasMaxLength(25);
 
             Property(t => t.LinkEN)
                 .HasMaxLength(150);
 
             Property(t => t.LinkPT)
-                .HasMaxLength(100);
+                .HasMaxLength(150);
+
+            Property(t => t.LinkPT)
+                .HasMaxLength(150);
 
             Property(t => t.SpecialtiesEN)
+                .IsOptional();
+
+            Property(t => t.SpecialtiesES)
+                .IsOptional();
+
+            Property(t => t.SpecialtiesPT)
                 .IsOptional();
 
             // Table & Column Mappings
@@ -44,6 +53,7 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
             Property(t => t.Longitude).HasColumnName("Longitude");
             Property(t => t.LinkEN).HasColumnName("LinkEN");
             Property(t => t.LinkPT).HasColumnName("LinkPT");
+            Property(t => t.LinkPT).HasColumnName("LinkES");
         }
     }
 }

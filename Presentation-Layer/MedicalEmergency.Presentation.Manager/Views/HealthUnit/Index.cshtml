@@ -41,10 +41,13 @@
                 @Html.ActionLinkWithColumnOrder(@HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().InstitutionTypeID).ToString()), "Index", (string)ViewBag.sortOrder, ViewBag.asc != null ? (bool)ViewBag.asc : true, ViewBag.page != null ? (int)ViewBag.page : 1, ViewBag.status != null ? (int)ViewBag.status : 0)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().LinkEN)
+                @HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().LinkEN).ToString())
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().LinkPT)
+                @HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().LinkPT).ToString())
+            </th>
+            <th>
+                @HttpUtility.HtmlDecode(@Html.DisplayNameFor(model => model.First().LinkES).ToString())
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Phone)
@@ -90,6 +93,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LinkPT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LinkES)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Phone)

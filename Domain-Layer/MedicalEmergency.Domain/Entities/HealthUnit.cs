@@ -29,19 +29,22 @@ namespace MedicalEmergency.Domain.Entities
 
         public string Longitude { get; set; }
 
-        [Display(Name = "Link PT")]
+        [Display(Name = "Link Português")]
         public  string LinkPT { get; set; }
 
-        [Display(Name = "Link EN")]
+        [Display(Name = "Link Inglês")]
         public string LinkEN { get; set; }
 
-        [Display(Name = "Especialidades PT")]
+        [Display(Name = "Link Espanhol")]
+        public string LinkES { get; set; }
+
+        [Display(Name = "Especialidades Português")]
         public string SpecialtiesPT { get; set; }
 
-        [Display(Name = "Especialiades EN")]
+        [Display(Name = "Especialiades Inglês")]
         public string SpecialtiesEN { get; set; }
 
-        [Display(Name = "Especialidades ESs")]
+        [Display(Name = "Especialidades Espanhol")]
         public string SpecialtiesES { get; set; }
 
         [NotMapped]
