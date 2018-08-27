@@ -1,4 +1,4 @@
-﻿@model IList<MedicalEmergency.Presentation.Manager.Models.Home.HealthUnitViewModel>
+@model IList<MedicalEmergency.Presentation.Manager.Models.Home.HealthUnitViewModel>
 
 @{
     ViewBag.Title = "Unidades Médicas";
@@ -60,6 +60,8 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDT_D3csnZOWkn_UtbWTEZARU2dMToeP48&libraries=places"></script>
 <script type="text/javascript">
     var map;
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var directionsService = new google.maps.DirectionsService();
 
     google.maps.event.addDomListener(window, 'load', function () {
         var options = {
@@ -103,9 +105,7 @@
         var latitude = parseFloat($(this).parent().children('#latitude').val());
         var longitude = parseFloat($(this).parent().children('#longitude').val());
 
-        var directionsDisplay = new google.maps.DirectionsRenderer();
-        var directionsService = new google.maps.DirectionsService();
-
+        directionsDisplay.setMap(null);
         directionsDisplay.setMap(map);
 
         var request = {
@@ -116,6 +116,7 @@
 
         directionsService.route(request, function (result, status) {
             if (status == 'OK') {
+                directionsDisplay.setDirections({routes: []});
                 directionsDisplay.setDirections(result);
             }
         });
