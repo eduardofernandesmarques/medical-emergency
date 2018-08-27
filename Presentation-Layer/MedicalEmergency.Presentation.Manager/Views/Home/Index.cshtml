@@ -29,6 +29,7 @@
     <input class="form-control custom position" type="text" id="position" placeholder="Endereço" name="position">
     <input type="hidden" id="latitude" name="Latitude" value="@ViewBag.Latitude" />
     <input type="hidden" id="longitude" name="Longitude" value="@ViewBag.Longitude" />
+    <input type="hidden" id="flag" name="Flag" value="@ViewBag.Flag"/>
 
     <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
 }
@@ -124,7 +125,9 @@
         var latitude = $('#latitude').val();
         var longitude = $('#longitude').val();
 
-        if (latitude == "" && longitude == "") {
+        var flag = $('#flag').val();
+
+        if (latitude == "" && longitude == "" || (flag == "" || flag == "0")) {
             e.preventDefault();
             GetLocation();
         }
@@ -141,6 +144,8 @@
 
                 $('#latitude').val(latitude);
                 $('#longitude').val(longitude);
+
+                 $('#flag').val("1");
 
                 $('.rota').show();
 

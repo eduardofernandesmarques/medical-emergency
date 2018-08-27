@@ -23,6 +23,8 @@ namespace MedicalEmergency.Presentation.Manager.Controllers
             ViewBag.Latitude = Latitude;
             ViewBag.Longitude = Longitude;
 
+            ViewBag.Flag = 0;
+
             var list = _healthUnitRepository.GetAll().Select(x => new HealthUnitViewModel { Name = x.Name, Address = x.Address, Latitude = x.Latitude.Replace(",", "."), Longitude = x.Longitude.Replace(",", "."), Phone = x.Phone, ShowRoute = false }).ToList();
 
             if (Latitude != null && Longitude != null)
