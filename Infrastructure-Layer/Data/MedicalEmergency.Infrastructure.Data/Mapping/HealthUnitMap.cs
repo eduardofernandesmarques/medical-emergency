@@ -32,7 +32,7 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
             Property(t => t.LinkPT)
                 .HasMaxLength(150);
 
-            Property(t => t.LinkPT)
+            Property(t => t.LinkES)
                 .HasMaxLength(150);
 
             Property(t => t.SpecialtiesEN)
@@ -53,7 +53,7 @@ namespace MedicalEmergency.Infrastructure.Data.Mapping
             Property(t => t.Longitude).HasColumnName("Longitude");
             Property(t => t.LinkEN).HasColumnName("LinkEN");
             Property(t => t.LinkPT).HasColumnName("LinkPT");
-            Property(t => t.LinkPT).HasColumnName("LinkES");
+            Property(t => t.LinkES).HasColumnName("LinkES");
         }
     }
 }

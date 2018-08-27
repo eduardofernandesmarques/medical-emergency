@@ -1,7 +1,69 @@
-﻿
+﻿@model IList<MedicalEmergency.Domain.Entities.HealthUnit>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Unidades Médicas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Unidades Médicas</h2>
 
+@using (Html.BeginForm())
+{
+    <input class="form-control custom position" type="text" id="position" placeholder="Endereço" name="position">
+    <input type="hidden" id="latitude" name="Latitude" />
+    <input type="hidden" id="longitude" name="Longitude" />
+
+    <input type="submit" class="btn btn-default" id="btn-buscar" value="Buscar" />
+}
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div>
+            @Html.DisplayFor(model => item.Name) @Html.DisplayFor(model => item.Address) <input type="button" value="Ver no mapa" />
+            @Html.HiddenFor(model => item.Latitude)
+            @Html.HiddenFor(model => item.Longitude)
+        </div>
+    }
+}
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDT_D3csnZOWkn_UtbWTEZARU2dMToeP48&libraries=places"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function () {
+            var options = {
+                componentRestrictions: { country: "br" }
+            };
+
+            var input = $('#position')[0];
+            var places = new google.maps.places.Autocomplete(input, options);
+    });
+
+    $('#btn-buscar').on('click', function (e) {
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
+
+        if (latitude == "" && longitude == "") {
+            e.preventDefault();
+            GetLocation();
+        }
+    });
+
+    function GetLocation() {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ 'address': $('#position').val() }, function (results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+
+                $('#latitude').val(latitude);
+                $('#longitude').val(longitude);
+
+                $('#btn-buscar').click();
+            }
+        });
+    }
+
+</script>  

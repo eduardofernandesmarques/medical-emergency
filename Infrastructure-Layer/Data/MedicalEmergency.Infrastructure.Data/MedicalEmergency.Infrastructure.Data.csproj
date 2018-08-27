@@ -56,9 +56,9 @@
     <Compile Include="Mapping\Manager\AccountMap.cs" />
     <Compile Include="Mapping\Types\EmergencyTypeMap.cs" />
     <Compile Include="Mapping\Types\InstitutionTypeMap.cs" />
-    <Compile Include="Migrations\201808270136181_Initial.cs" />
-    <Compile Include="Migrations\201808270136181_Initial.Designer.cs">
-      <DependentUpon>201808270136181_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201808270602556_Initial.cs" />
+    <Compile Include="Migrations\201808270602556_Initial.Designer.cs">
+      <DependentUpon>201808270602556_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -86,8 +86,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808270136181_Initial.resx">
-      <DependentUpon>201808270136181_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808270602556_Initial.resx">
+      <DependentUpon>201808270602556_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
