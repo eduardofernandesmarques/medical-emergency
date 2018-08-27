@@ -40,7 +40,6 @@ textarea {
     font-family: Trebuchet MS, Ubuntu, Helvetica, Arial, sans-serif;
     font-size: 12px;
     line-height: 1.42857143;
-    color: #333;
 }
 
     .table-custom th {
@@ -89,46 +88,14 @@ textarea {
     width: 100%;
 }
 
-.navbar-inverse {
-    background-color: #1f386e;
-}
-.navbar-inverse .navbar-brand,
-.navbar-inverse .navbar-nav > li > a {
-    color: #ffffff;
-}
 .body-content-index h2 {
     line-height: 35px;
     font-weight: 400;
     font-size: 30px;
-    color: #1f386e;
 }
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    background-color: #a3cd3d;
-    border-color: #a3cd3d;
-}
-.pagination > li > a, .pagination > li > span,
-.table-custom table tr th a,
-.table-custom table tr th a:hover {
-    color: #a3cd3d;
-}
-.table-custom table tr th {
-    color: #1f386e;
-}
-.table-custom table tr:nth-child(odd) {
-    background-color: #eeeeee;
-}
-.btn.btn-default {
-    padding: 15px 60px;
-    background-color: #a3cd3d;
-    border: 0px;
-    border-radius: 30px;
-    text-transform: uppercase;
-    font-size: 16px;
-    color: #fff;
-    text-align: center;
-}
+
+
 .btn.btn-default:hover {
-    background-color: #8db42e;
     border: 0px;
 }
 .form-control {
@@ -139,8 +106,16 @@ textarea {
     background-color: transparent;
     border-radius: 0px;
     font-size: 16px;
-    color: #555d63;
 }
 .form-control:focus {
     border-bottom: 2px solid #1f376d;
+}
+
+.healthUnit{
+    min-width: 280px;
+    border: 3px solid;
+    padding: 25px;
+    margin: 25px;
+    float: left;
+    min-height: 150px
 }
